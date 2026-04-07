@@ -2,8 +2,8 @@ import RPi.GPIO as GPIO
 import time
 import curses
 
-import motors
-import sensors
+from motors import Motor, MotorGroup
+from sensors import UltrasonicSensor, LineTrackingSensor
 
 
 MAX_DUTY_CYCLES = 80 # controls motor speed - maximum: 100
@@ -117,10 +117,10 @@ def main(stdscr):
 
 try:
     # Setup of motors and sensors
-    motorsLeft = motors.MotorGroup("LEFT", [motors.Motor("FL", PWMA_L, AIN1_L, AIN2_L), motors.Motor("RL", PWMB_L, BIN1_L, BIN2_L)], MAX_DUTY_CYCLES)
-    motorsRight = motors.MotorGroup("RIGHT", [motors.Motor("FR", PWMA_R, AIN1_R, AIN2_R), motors.Motor("RR", PWMB_R, BIN1_R, BIN2_R)], MAX_DUTY_CYCLES)
-    ultrasonicFront = sensors.UltrasonicSensor("US_FRONT", TRIG, ECHO, ULTRASONIC_BUFFER_SIZE)
-    lineTracker = sensors.LineTrackingSensor("LINE_TRACKER", LINE)
+    motorsLeft = MotorGroup("LEFT", [Motor("FL", PWMA_L, AIN1_L, AIN2_L), Motor("RL", PWMB_L, BIN1_L, BIN2_L)], MAX_DUTY_CYCLES)
+    motorsRight = MotorGroup("RIGHT", [Motor("FR", PWMA_R, AIN1_R, AIN2_R), Motor("RR", PWMB_R, BIN1_R, BIN2_R)], MAX_DUTY_CYCLES)
+    ultrasonicFront = UltrasonicSensor("US_FRONT", TRIG, ECHO, ULTRASONIC_BUFFER_SIZE)
+    lineTracker = LineTrackingSensor("LINE_TRACKER", LINE)
 
     curses.set_escdelay(25)
     curses.wrapper(main)

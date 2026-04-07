@@ -2,12 +2,21 @@ import RPi.GPIO as GPIO
 import time
 from collections import deque
 
-# Class defining an ultrasonic sensor with ability to store the last measurements in a buffer
-class UltrasonicSensor:
-    def __init__(self, label: str, trig: int, echo: int, buffer_size: int):
-        self.label = label
-        self._trig = trig
-        self._echo = echo
+# Base class for sensor modules
+class Sensor:
+    def __init__(self, label: str, output_type: type):
+        self._label = label
+        self._output_type = type
+
+    def __str__(self):
+        return self._label
+    
+# Class representing an ultrasonic sensor module (HC-SR04 or similar) with ability to store the last measurements in a buffer
+class UltrasonicSensor(Sensor):
+    def __init__(self, label: str, trig_pin: int, echo_pin: int, buffer_size: int):
+        Sensor.__init__(self, label, float)
+        self._trig = trig_pin
+        self._echo = echo_pin
         GPIO.output(self._trig, GPIO.LOW)
         self._buffer = deque(maxlen=buffer_size)
 
@@ -36,20 +45,25 @@ class UltrasonicSensor:
     # Calculate average of measurements stored in buffer
     def get_recent_avg(self) -> float:
         return round(sum(self._buffer) / len(self._buffer), 2)
-
-    def __str__(self):
-        return self.label
     
 
-# Class defining a line tracking sensor
-class LineTrackingSensor:
-    def __init__(self, label: str, signal: int):
-        self.label = label
-        self._signal = signal
+# Class representing a line tracking sensor module (HW-511 or similar)
+class LineTrackingSensor(Sensor):
+    def __init__(self, label: str, signal_pin: int):
+        Sensor.__init__(self, label, bool)
+        self._signal = signal_pin
 
     # Returns true if line detected, false otherwise
     def read_value(self) -> bool:
         return bool(GPIO.input(self._signal))
+    
 
-    def __str__(self):
-        return self.label
+# Class representing a passive infrared (PIR) sensor module (HW-416A or similar)
+class PassiveInfraredSensor(Sensor):
+    def __init__(self, label: str, signal_pin: int):
+        Sensor.__init__(self, label, bool)
+        self._signal = signal_pin
+
+    # Returns true if movement detected, false otherwise
+    def read_value(self) -> bool:
+        return bool(GPIO.input(self._signal))
