@@ -1,2 +1,4 @@
 venv/
 .vscode
+*.h264
+*.jpg
