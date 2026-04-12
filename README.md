@@ -17,3 +17,22 @@ This is a personal project of mine with the goal of designing and programming a 
 ## Sensors
 - HC-SR04 ultrasonic sensor
 - HW-511 line tracker module
+
+## Setup
+If you want to use this code for your own project on a Raspberry Pi, make sure that your virtual enviroment has all the Pi-specific system-wide packages needed. You can do so by inheriting them on environment creation after making sure they are installed:
+
+```
+sudo apt install python3-gpiozero python3-rpi.gpio i2c-tools
+python3 -m venv venv --system-site-packages
+```
+
+Then, install the dependencies specific to this project:
+
+```
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+ 
+
+
