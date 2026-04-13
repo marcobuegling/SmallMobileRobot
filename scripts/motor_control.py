@@ -30,7 +30,8 @@ ECHO = 25
 STBY = 10
 LINE = 12
 
-GPIO.setmode(GPIO.BCM) # use GPIO pin numbers
+# Refer to pins by the Broadcom SOC channel (aka GPIO) numbering
+GPIO.setmode(GPIO.BCM)
 
 # Setup output pins
 output_pins = [PWMA_R, AIN1_R, AIN2_R, PWMB_R, BIN1_R, BIN2_R, PWMA_L, AIN1_L, AIN2_L, PWMB_L, BIN1_L, BIN2_L, TRIG, STBY]

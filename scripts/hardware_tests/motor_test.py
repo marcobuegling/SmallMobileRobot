@@ -19,6 +19,7 @@ BIN1_L = 24
 BIN2_L = 23
 STBY = 10 # STBY can also be powered permanently by 3.3V pin
 
+# Refer to channels using Broadcom SOC channel (aka GPIO) numbering
 GPIO.setmode(GPIO.BCM)
 
 # Setup pins
