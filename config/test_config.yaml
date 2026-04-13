@@ -1,0 +1,34 @@
+# GPIO pin definitions for the main motors including shared stby pin
+motors:
+  left:
+    back:
+      pwm: 22
+      in1: 24
+      in2: 23
+    front:
+      pwm: 4
+      in1: 17
+      in2: 27
+  right:
+    back:
+      pwm: 26
+      in1: 6
+      in2: 5
+    front:
+      pwm: 21
+      in1: 16
+      in2: 20
+  stby: 10
+
+# Number of channels and address of the servo motors of the camera pan-tilt-platform
+camera_servo_motors:
+  channels: 16
+  address: 0x40
+
+# GPIO pin definitions for the sensors
+sensors:
+  ultrasonic:
+    trig: 18
+    echo: 25
+  line:
+    signal: 12
