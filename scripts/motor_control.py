@@ -1,9 +1,13 @@
-import RPi.GPIO as GPIO
+import sys
 import time
 import curses
+if sys.platform == "linux":
+    import RPi.GPIO as GPIO
+else:
+    GPIO = None
 
-from motors import Motor, MotorGroup
-from sensors import UltrasonicSensor, LineTrackingSensor
+from robot.hardware.motors import Motor, MotorGroup
+from robot.hardware.sensors import UltrasonicSensor, LineTrackingSensor
 
 
 MAX_DUTY_CYCLES = 80 # controls motor speed - maximum: 100

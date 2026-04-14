@@ -33,11 +33,12 @@ Create the virtual environments including the system packages:
 python3 -m venv venv --system-site-packages
 ```
 
-Finally, install the dependencies specific to this project:
+Finally, install the dependencies specific to this project and the source code in your virtual environment:
 
 ```
 source venv/bin/activate
 pip install -r requirements.txt
+pip install -e .
 ```
 
  

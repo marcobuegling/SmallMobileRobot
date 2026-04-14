@@ -1,4 +1,7 @@
-import RPi.GPIO as GPIO
+if sys.platform == "linux":
+    import RPi.GPIO as GPIO
+else:
+    GPIO = None
 
 # Class defining a single motor using the corresponding output pins
 class Motor:

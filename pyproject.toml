@@ -4,6 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "robot"
+version = "0.1.0"
 authors = [ 
 	{ name="Marco Bügling" }
 ]
@@ -12,6 +13,7 @@ dependencies = [
 	"adafruit-blinka; sys_platform == 'linux'",
 	"adafruit-circuitpython-servokit; sys_platform == 'linux'",
 	"picamera2; sys_platform == 'linux'",
+	"windows-curses; sys_platform == 'win32'"
 ]
 
 [tool.setuptools]
