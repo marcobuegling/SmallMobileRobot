@@ -21,14 +21,19 @@ This is a personal project of mine with the goal of designing and programming a 
 - Raspberry Pi Camera Module 3
 
 ## Setup
-If you want to use this code for your own project on a Raspberry Pi, make sure that your virtual enviroment has all the Pi-specific system-wide packages needed. You can do so by inheriting them on environment creation after making sure they are installed:
+If you want to use this code for your own project on a Raspberry Pi, make sure that all Pi-specific system dependencies are installed. They are not included in the requirements.txt, which only includes the packages you should install in your virtual environment for this project. Install system dependencies:
 
 ```
-sudo apt install python3-gpiozero python3-rpi.gpio i2c-tools
+sudo apt install python3-gpiozero python3-rpi.gpio i2c-tools libcap-dev
+```
+
+Create the virtual environments including the system packages:
+
+```
 python3 -m venv venv --system-site-packages
 ```
 
-Then, install the dependencies specific to this project:
+Finally, install the dependencies specific to this project:
 
 ```
 source venv/bin/activate
