@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "robot"
+authors = [ 
+	{ name="Marco Bügling" }
+]
+
+dependencies = [
+	"adafruit-blinka; sys_platform == 'linux'",
+	"adafruit-circuitpython-servokit; sys_platform == 'linux'",
+	"RPi.GPIO; sys_platform == 'linux'",
+	"picamera2; sys_platform == 'linux'",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
