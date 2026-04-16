@@ -60,7 +60,7 @@ def main(stdscr):
     velocity = 0.0    # -1.0 (max speed backwards) to 1.0 (max speed forwards)
     steering = 0.0    # -1.0 (max right) to 1.0 (max left)
 
-    # Set STBY signal to turn on motors
+    # Set STBY signal to high to activate motor drivers
     GPIO.output(STBY, GPIO.HIGH) 
 
     print("Control loop started")
