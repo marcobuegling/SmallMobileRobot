@@ -58,11 +58,43 @@ class FourWheelCarControl:
 
         self.start()
 
-    def _update_motor_speed(self):
-        rel_speed_left = self._clamp(self._speed - self._steering, -1.0, 1.0)
-        rel_speed_right = self._clamp(self._speed + self._steering, -1.0, 1.0)
-        self._motors_left.update_speed(self._base_speed * rel_speed_left)
-        self._motors_right.update_speed(self._base_speed * rel_speed_right)
+    # ------------------------------------------------------------------
+    # Properties
+    # ------------------------------------------------------------------
+
+    @property
+    def speed(self) -> float:
+        """
+        Returns current forward/backward speed of car
+        """
+        return self._speed
+    
+    @property
+    def steering(self) -> float:
+        """
+        Returns current left/right steering strength: negative for steering to the left, positive for steering to the right
+        """
+        return self._steering
+
+    # ------------------------------------------------------------------
+    # Start and stop functionality
+    # ------------------------------------------------------------------
+
+    def start(self):
+        """
+        Activate motor drivers by setting a high signal on the stby pin
+        """
+        GPIO.output(self._stby, True)
+
+    def stop(self):
+        """
+        Set car into stby mode, stopping completely until start() is called
+        """
+        GPIO.output(self._stby, False)
+
+    # ------------------------------------------------------------------
+    # Speed and steering alteration
+    # ------------------------------------------------------------------
 
     def set_speed(self, speed: float):
         """
@@ -92,17 +124,15 @@ class FourWheelCarControl:
         self._steering = self._clamp(self._steering + change, -1.0, 1.0)
         self._update_motor_speed()
 
-    def start(self):
-        """
-        Activate motor drivers by setting a high signal on the stby pin
-        """
-        GPIO.output(self._stby, True)
+    # ------------------------------------------------------------------
+    # Internal helpers
+    # ------------------------------------------------------------------
 
-    def stop(self):
-        """
-        Set car into stby mode, stopping completely until start() is called
-        """
-        GPIO.output(self._stby, False)
+    def _update_motor_speed(self):
+        rel_speed_left = self._clamp(self._speed - self._steering, -1.0, 1.0)
+        rel_speed_right = self._clamp(self._speed + self._steering, -1.0, 1.0)
+        self._motors_left.update_speed(self._base_speed * rel_speed_left)
+        self._motors_right.update_speed(self._base_speed * rel_speed_right)
 
     @staticmethod
     def _clamp(value: float, lo: float, hi: float) -> float:
