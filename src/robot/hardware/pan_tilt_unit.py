@@ -27,11 +27,11 @@ class PanTiltUnit:
         i2c_address: int   = 0x40,
         pan_ch:  int       = DEFAULT_PAN_CH,
         tilt_ch: int       = DEFAULT_TILT_CH,
-        pan_lo:  float     = 10.0,
-        pan_hi:  float     = 170.0,
-        tilt_lo: float     = 10.0,
-        tilt_hi: float     = 170.0,
-        step:    float     = 2.0,
+        pan_lo:  float     = 0.0,
+        pan_hi:  float     = 180.0,
+        tilt_lo: float     = 0.0,
+        tilt_hi: float     = 180.0,
+        step:    float     = 5.0,
     ):
         """
         Args:

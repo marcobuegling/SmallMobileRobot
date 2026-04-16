@@ -26,15 +26,21 @@ def main(stdscr):
         if key == ord('c'): # center the camera
             pan_tilt.center()
         if key == ord('t'): # test setting to a specified position
-            pan_tilt.set_position(20.0, 20.0)
+            pan_tilt.set_position(0.0, 0.0)
+        if key == ord('z'):
+            pan_tilt.set_position(180.0, 180.0)
+        if key == ord('u'):
+            pan_tilt.set_position(180.0, 190.0)
         if key == ord('i'): # take image
             camera.single_image()
+        if key == ord('v'): # take video
+            camera.single_video(5.0)
         if key == ord('q'): # quit
             break
 
 try:
     pan_tilt = PanTiltUnit()
-    camera = PiCamera()
+    camera = PiCamera(mode='video')
 
     pan_tilt.center()
 
