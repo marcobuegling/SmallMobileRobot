@@ -1,4 +1,8 @@
-import RPi.GPIO as GPIO
+import sys
+if sys.platform == "linux":
+    import RPi.GPIO as GPIO
+else:
+    GPIO = None
 import time
 
 MAX_DUTY_CYCLES = 80 # controls motor speed - maximum: 100

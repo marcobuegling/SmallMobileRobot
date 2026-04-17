@@ -57,8 +57,20 @@ class FourWheelCarControl:
         self.speed_step = speed_step
         self.steering_step = steering_step
 
-        self._motors_left = MotorGroup("LEFT", [Motor("FL", pwma_l, ain1_l, ain2_l), Motor("RL", pwmb_l, bin1_l, bin2_l)], self._base_speed)
-        self._motors_right = MotorGroup("RIGHT", [Motor("FR", pwma_r, ain1_r, ain2_r), Motor("RR", pwmb_r, bin1_r, bin2_r)], self._base_speed)
+        self._motors_left = MotorGroup(
+            [
+                Motor(pwma_l, ain1_l, ain2_l), 
+                Motor(pwmb_l, bin1_l, bin2_l)
+            ],
+            self._base_speed
+        )
+        self._motors_right = MotorGroup(
+            [
+                Motor(pwma_r, ain1_r, ain2_r), 
+                Motor(pwmb_r, bin1_r, bin2_r)
+            ],
+            self._base_speed
+        )
         self._stby = stby
         
         self._active = True
@@ -88,13 +100,17 @@ class FourWheelCarControl:
         self.steering_step = steering_step
 
         self._motors_left = MotorGroup(
-            "LEFT", 
-            [Motor("FL", cfg.left.front.pwm, cfg.left.front.in1, cfg.left.front.in2), Motor("RL", cfg.left.rear.pwm, cfg.left.rear.in1, cfg.left.rear.in2)], 
+            [
+                Motor(cfg.left.front.pwm, cfg.left.front.in1, cfg.left.front.in2), 
+                Motor(cfg.left.rear.pwm, cfg.left.rear.in1, cfg.left.rear.in2)
+            ], 
             self._base_speed
         )
         self._motors_right = MotorGroup(
-            "RIGHT",
-            [Motor("FR", cfg.right.front.pwm, cfg.right.front.in1, cfg.right.front.in2), Motor("RR", cfg.right.rear.pwm, cfg.right.rear.in1, cfg.right.rear.in2)], 
+            [
+                Motor(cfg.right.front.pwm, cfg.right.front.in1, cfg.right.front.in2), 
+                Motor(cfg.right.rear.pwm, cfg.right.rear.in1, cfg.right.rear.in2)
+            ], 
             self._base_speed
         )
         self._stby = cfg.stby
@@ -138,7 +154,7 @@ class FourWheelCarControl:
     @property
     def steering(self) -> float:
         """
-        Current left/right steering strength: negative for steering to the left, positive for steering to the right
+        Current left/right steering strength: negative for steering to the right, positive for steering to the left
         """
         return self._steering
     
@@ -289,7 +305,7 @@ class FourWheelCarControl:
         Performs cleanup, stopping all motor pwms.
         """
         self._motors_left.stop()
-        self._motors_left.stop()
+        self._motors_right.stop()
 
     # ------------------------------------------------------------------
     # Internal helpers

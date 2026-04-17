@@ -122,10 +122,10 @@ def main(stdscr):
 
 try:
     # Setup of motors and sensors
-    motorsLeft = MotorGroup("LEFT", [Motor("FL", PWMA_L, PWM_FREQUENCY, AIN1_L, AIN2_L), Motor("RL", PWMB_L, PWM_FREQUENCY, BIN1_L, BIN2_L)], MAX_DUTY_CYCLES)
-    motorsRight = MotorGroup("RIGHT", [Motor("FR", PWMA_R, PWM_FREQUENCY, AIN1_R, AIN2_R), Motor("RR", PWMB_R, PWM_FREQUENCY, BIN1_R, BIN2_R)], MAX_DUTY_CYCLES)
-    ultrasonicFront = UltrasonicSensor("US_FRONT", TRIG, ECHO, ULTRASONIC_BUFFER_SIZE)
-    lineTracker = LineTrackingSensor("LINE_TRACKER", LINE)
+    motorsLeft = MotorGroup([Motor(PWMA_L, PWM_FREQUENCY, AIN1_L, AIN2_L), Motor(PWMB_L, PWM_FREQUENCY, BIN1_L, BIN2_L)], MAX_DUTY_CYCLES)
+    motorsRight = MotorGroup([Motor(PWMA_R, PWM_FREQUENCY, AIN1_R, AIN2_R), Motor(PWMB_R, PWM_FREQUENCY, BIN1_R, BIN2_R)], MAX_DUTY_CYCLES)
+    ultrasonicFront = UltrasonicSensor(TRIG, ECHO, ULTRASONIC_BUFFER_SIZE)
+    lineTracker = LineTrackingSensor(LINE)
 
     curses.set_escdelay(25)
     curses.wrapper(main)

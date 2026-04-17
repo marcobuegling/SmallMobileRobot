@@ -3,25 +3,31 @@ if sys.platform == "linux":
 else:
     GPIO = None
 import time
-from collections import deque
+from collections import overload, deque
 
 # Base class for sensor modules
 class Sensor:
-    def __init__(self, label: str, output_type: type):
-        self._label = label
+    def __init__(self, output_type: type):
         self._output_type = type
+
+    @property
+    def output_type(self) -> type:
+        return self._output_type
 
     def __str__(self):
         return self._label
     
 # Class representing an ultrasonic sensor module (HC-SR04 or similar) with ability to store the last measurements in a buffer
 class UltrasonicSensor(Sensor):
-    def __init__(self, label: str, trig_pin: int, echo_pin: int, buffer_size: int):
-        Sensor.__init__(self, label, float)
+    @overload
+    def __init__(self, trig_pin: int, echo_pin: int, buffer_size: int):
+        Sensor.__init__(self, float)
         self._trig = trig_pin
         self._echo = echo_pin
         GPIO.output(self._trig, GPIO.LOW)
         self._buffer = deque(maxlen=buffer_size)
+
+    @overload
 
     # Reads a single value, stores it in the buffer and returns it
     def read_value(self) -> float:
@@ -52,8 +58,8 @@ class UltrasonicSensor(Sensor):
 
 # Class representing a line tracking sensor module (HW-511 or similar)
 class LineTrackingSensor(Sensor):
-    def __init__(self, label: str, signal_pin: int):
-        Sensor.__init__(self, label, bool)
+    def __init__(self, signal_pin: int):
+        Sensor.__init__(self, bool)
         self._signal = signal_pin
 
     # Returns true if line detected, false otherwise
@@ -63,8 +69,8 @@ class LineTrackingSensor(Sensor):
 
 # Class representing a passive infrared (PIR) sensor module (HW-416A or similar)
 class PassiveInfraredSensor(Sensor):
-    def __init__(self, label: str, signal_pin: int):
-        Sensor.__init__(self, label, bool)
+    def __init__(self, signal_pin: int):
+        Sensor.__init__(self, bool)
         self._signal = signal_pin
 
     # Returns true if movement detected, false otherwise
