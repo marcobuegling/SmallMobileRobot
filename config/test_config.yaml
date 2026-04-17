@@ -1,7 +1,10 @@
+# Robot type - must match exactly ROBOT_TYPE of the class you want to use
+robot_type: "basic_car_us_lt"
+
 # GPIO pin definitions for the main motors including shared stby pin
 motors:
   left:
-    back:
+    rear:
       pwm: 22
       in1: 24
       in2: 23
@@ -10,7 +13,7 @@ motors:
       in1: 17
       in2: 27
   right:
-    back:
+    rear:
       pwm: 26
       in1: 6
       in2: 5
@@ -30,7 +33,7 @@ control:
 # Number of channels and address of the servo motors of the camera pan-tilt-platform
 camera_servo_motors:
   channels: 16
-  address: 0x40
+  address: 0x40 # hex format, =64
 
 # GPIO pin definitions for the sensors
 sensors:

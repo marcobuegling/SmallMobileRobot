@@ -3,8 +3,9 @@ if sys.platform == "linux":
     import RPi.GPIO as GPIO
 else:
     GPIO = None
-from robot.hardware.motors import MotorGroup, Motor
 from collections import overload
+from robot.hardware.motors import MotorGroup, Motor
+from robot.utils.config import MotorsConfig, MotorSide, MotorPins
 
 class FourWheelCarControl:
     """
@@ -59,6 +60,44 @@ class FourWheelCarControl:
         self._motors_left = MotorGroup("LEFT", [Motor("FL", pwma_l, ain1_l, ain2_l), Motor("RL", pwmb_l, bin1_l, bin2_l)], self._base_speed)
         self._motors_right = MotorGroup("RIGHT", [Motor("FR", pwma_r, ain1_r, ain2_r), Motor("RR", pwmb_r, bin1_r, bin2_r)], self._base_speed)
         self._stby = stby
+        
+        self._active = True
+        self._allow_forward = True
+        self._allow_backward = True
+        self.start()
+
+    @overload
+    def __init__(
+        self, 
+        cfg: MotorsConfig,
+        base_speed : float = 100.0, 
+        speed_step: float = 0.1,
+        steering_step: float = 0.2,
+    ):
+        """
+        Args:
+            cfg:            config containing all pin positions
+            base_speed:     defines max duty cycles for motors, between 0 and 100
+            speed_step:     defines effect of single speed increase/decrease, relative, between 0 and 1
+            steering_step:  defines effect of single steering increase/decrease, relative, between 0 and 1
+        """
+        self.base_speed = base_speed
+        self._speed = 0.0
+        self._steering = 0.0
+        self.speed_step = speed_step
+        self.steering_step = steering_step
+
+        self._motors_left = MotorGroup(
+            "LEFT", 
+            [Motor("FL", cfg.left.front.pwm, cfg.left.front.in1, cfg.left.front.in2), Motor("RL", cfg.left.rear.pwm, cfg.left.rear.in1, cfg.left.rear.in2)], 
+            self._base_speed
+        )
+        self._motors_right = MotorGroup(
+            "RIGHT",
+            [Motor("FR", cfg.right.front.pwm, cfg.right.front.in1, cfg.right.front.in2), Motor("RR", cfg.right.rear.pwm, cfg.right.rear.in1, cfg.right.rear.in2))], 
+            self._base_speed
+        )
+        self._stby = cfg.stby
         
         self._active = True
         self._allow_forward = True
@@ -240,6 +279,17 @@ class FourWheelCarControl:
     def turn_right(self, step: float = None) -> float:
         """Increases/decreases steering motion according to specified step or current step size. Returns new steering value."""
         return self.change_steering(-(step or self._steering_step))
+
+    # ------------------------------------------------------------------
+    # Cleanup
+    # ------------------------------------------------------------------
+
+    def cleanup(self) -> None:
+        """
+        Performs cleanup, stopping all motor pwms.
+        """
+        self._motors_left.stop()
+        self._motors_left.stop()
 
     # ------------------------------------------------------------------
     # Internal helpers

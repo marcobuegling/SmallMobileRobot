@@ -10,6 +10,8 @@ authors = [
 ]
 
 dependencies = [
+	"pyyaml",
+	"pydantic",
 	"adafruit-blinka; sys_platform == 'linux'",
 	"adafruit-circuitpython-servokit; sys_platform == 'linux'",
 	"picamera2; sys_platform == 'linux'",
