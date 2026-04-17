@@ -94,7 +94,7 @@ class FourWheelCarControl:
         )
         self._motors_right = MotorGroup(
             "RIGHT",
-            [Motor("FR", cfg.right.front.pwm, cfg.right.front.in1, cfg.right.front.in2), Motor("RR", cfg.right.rear.pwm, cfg.right.rear.in1, cfg.right.rear.in2))], 
+            [Motor("FR", cfg.right.front.pwm, cfg.right.front.in1, cfg.right.front.in2), Motor("RR", cfg.right.rear.pwm, cfg.right.rear.in1, cfg.right.rear.in2)], 
             self._base_speed
         )
         self._stby = cfg.stby
