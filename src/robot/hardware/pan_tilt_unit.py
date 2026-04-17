@@ -59,7 +59,7 @@ class PanTiltUnit:
         self._pan_hi  = pan_hi
         self._tilt_lo = tilt_lo
         self._tilt_hi = tilt_hi
-        self._step    = step
+        self.step    = step
 
         # Track current angles internally
         self._pan_angle  = 90.0
