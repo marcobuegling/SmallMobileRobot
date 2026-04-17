@@ -122,8 +122,8 @@ def main(stdscr):
 
 try:
     # Setup of motors and sensors
-    motorsLeft = MotorGroup("LEFT", [Motor("FL", PWMA_L, AIN1_L, AIN2_L), Motor("RL", PWMB_L, BIN1_L, BIN2_L)], MAX_DUTY_CYCLES)
-    motorsRight = MotorGroup("RIGHT", [Motor("FR", PWMA_R, AIN1_R, AIN2_R), Motor("RR", PWMB_R, BIN1_R, BIN2_R)], MAX_DUTY_CYCLES)
+    motorsLeft = MotorGroup("LEFT", [Motor("FL", PWMA_L, PWM_FREQUENCY, AIN1_L, AIN2_L), Motor("RL", PWMB_L, PWM_FREQUENCY, BIN1_L, BIN2_L)], MAX_DUTY_CYCLES)
+    motorsRight = MotorGroup("RIGHT", [Motor("FR", PWMA_R, PWM_FREQUENCY, AIN1_R, AIN2_R), Motor("RR", PWMB_R, PWM_FREQUENCY, BIN1_R, BIN2_R)], MAX_DUTY_CYCLES)
     ultrasonicFront = UltrasonicSensor("US_FRONT", TRIG, ECHO, ULTRASONIC_BUFFER_SIZE)
     lineTracker = LineTrackingSensor("LINE_TRACKER", LINE)
 

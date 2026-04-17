@@ -20,6 +20,13 @@ motors:
       in2: 20
   stby: 10
 
+# Hyperparameters regarding car control
+control:
+  max_speed: 100
+  acceleration_sensitivity: 0.1
+  steering_sensitivity: 0.2
+  pwm_frequency: 1000
+
 # Number of channels and address of the servo motors of the camera pan-tilt-platform
 camera_servo_motors:
   channels: 16
