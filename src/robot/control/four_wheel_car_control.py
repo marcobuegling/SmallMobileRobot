@@ -222,14 +222,16 @@ class FourWheelCarControl:
         """
         Activate motor drivers by setting a high signal on the stby pin
         """
-        GPIO.output(self._stby, True)
+        if GPIO: 
+            GPIO.output(self._stby, True)
         self._active = True
 
     def stop(self) -> None:
         """
         Set car into stby mode, stopping completely until start() is called
         """
-        GPIO.output(self._stby, False)
+        if GPIO:
+            GPIO.output(self._stby, False)
         self._active = False
 
     # ------------------------------------------------------------------
@@ -326,6 +328,7 @@ class FourWheelCarControl:
 
         Returns the clamped speed
         """
+        # use type conversion from bool to allow/disallow forward/backward movement
         return self._clamp(value, -float(self._allow_backward), float(self._allow_forward))
 
     @staticmethod

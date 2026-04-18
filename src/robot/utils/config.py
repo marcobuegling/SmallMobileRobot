@@ -2,7 +2,7 @@ from pathlib import Path
 import yaml
 from pydantic import BaseModel
 
-# --- Model definitions mirroring your YAML structure ---
+# --- Model definitions mirroring the structure defined in config ---
 
 class MotorPins(BaseModel):
     pwm: int
