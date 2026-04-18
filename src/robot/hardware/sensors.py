@@ -3,7 +3,8 @@ if sys.platform == "linux":
 else:
     GPIO = None
 import time
-from collections import overload, deque
+from collections import deque
+from robot.utils.config import UltrasonicSensorConfig, BasicSensorConfig
 
 # Base class for sensor modules
 class Sensor:
@@ -19,15 +20,16 @@ class Sensor:
     
 # Class representing an ultrasonic sensor module (HC-SR04 or similar) with ability to store the last measurements in a buffer
 class UltrasonicSensor(Sensor):
-    @overload
-    def __init__(self, trig_pin: int, echo_pin: int, buffer_size: int):
+    def __init__(self, trig_pin: int, echo_pin: int, buffer_size: int = 0):
         Sensor.__init__(self, float)
         self._trig = trig_pin
         self._echo = echo_pin
         GPIO.output(self._trig, GPIO.LOW)
         self._buffer = deque(maxlen=buffer_size)
 
-    @overload
+    @classmethod
+    def from_config(cls, cfg: UltrasonicSensorConfig, buffer_size: int = 0):
+        return cls(cfg.trig, cfg.echo, buffer_size)
 
     # Reads a single value, stores it in the buffer and returns it
     def read_value(self) -> float:
@@ -62,6 +64,10 @@ class LineTrackingSensor(Sensor):
         Sensor.__init__(self, bool)
         self._signal = signal_pin
 
+    @classmethod
+    def from_config(cls, cfg: BasicSensorConfig):
+        return cls(cfg.signal)
+
     # Returns true if line detected, false otherwise
     def read_value(self) -> bool:
         return bool(GPIO.input(self._signal))
@@ -72,6 +78,10 @@ class PassiveInfraredSensor(Sensor):
     def __init__(self, signal_pin: int):
         Sensor.__init__(self, bool)
         self._signal = signal_pin
+
+    @classmethod
+    def from_config(cls, cfg: BasicSensorConfig):
+        return cls(cfg.signal)
 
     # Returns true if movement detected, false otherwise
     def read_value(self) -> bool:

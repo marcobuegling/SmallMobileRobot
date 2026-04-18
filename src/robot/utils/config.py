@@ -22,16 +22,16 @@ class CameraServoConfig(BaseModel):
     channels: int
     address: int  # hex values like 0x40 are parsed as ints automatically
 
-class UltrasonicSensor(BaseModel):
+class UltrasonicSensorConfig(BaseModel):
     trig: int
     echo: int
 
-class LineSensor(BaseModel):
+class BasicSensorConfig(BaseModel):
     signal: int
 
 class SensorsConfig(BaseModel):
-    ultrasonic: UltrasonicSensor
-    line: LineSensor
+    ultrasonic: UltrasonicSensorConfig
+    line: BasicSensorConfig
 
 class RobotConfig(BaseModel):
     robot_type: str

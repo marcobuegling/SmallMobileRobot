@@ -22,8 +22,8 @@ class BasicCar:
         self._initialised = False
 
         self._motorControl = FourWheelCarControl.from_config(cfg.motors)
-        self._ultrasonicFront = UltrasonicSensor(cfg.sensors.ultrasonic)
-        self._lineTracker = LineTrackingSensor(cfg.sensors.line)
+        self._ultrasonicFront = UltrasonicSensor.from_config(cfg.sensors.ultrasonic, buffer_size=3)
+        self._lineTracker = LineTrackingSensor.from_config(cfg.sensors.line)
 
         self._initialised = True
 
