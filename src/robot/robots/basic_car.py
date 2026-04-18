@@ -18,17 +18,12 @@ class BasicCar:
     Initialise a config file corresponding to this type of robot. See /config for an example file.
     """
 
-    ROBOT_TYPE = "basic_car_us_lt"
-
     def __init__(self, cfg: RobotConfig):
         self._initialised = False
 
-        if cfg.robot_type != self.ROBOT_TYPE:
-            raise ValueError(f"Mismatch between expected robot type {cfg.robot_type} and robot type of chosen class {self.ROBOT_TYPE}")
-
-        self._motorControl = FourWheelCarControl()
-        self._ultrasonicFront = UltrasonicSensor()
-        self._lineTracker = LineTrackingSensor()
+        self._motorControl = FourWheelCarControl.from_config(cfg.motors)
+        self._ultrasonicFront = UltrasonicSensor(cfg.sensors.ultrasonic)
+        self._lineTracker = LineTrackingSensor(cfg.sensors.line)
 
         self._initialised = True
 

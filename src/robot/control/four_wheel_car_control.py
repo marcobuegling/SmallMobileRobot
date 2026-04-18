@@ -3,7 +3,6 @@ if sys.platform == "linux":
     import RPi.GPIO as GPIO
 else:
     GPIO = None
-from collections import overload
 from robot.hardware.motors import MotorGroup, Motor
 from robot.utils.config import MotorsConfig, MotorSide, MotorPins
 
@@ -12,22 +11,13 @@ class FourWheelCarControl:
     Provides an interface for controlling a basic four wheel (and motor) car with common motor drivers like the TB6612FNG.
     Each motor has three pins: PWM, IN1 and IN2. The motor drivers share one STBY pin.
     """
-    @overload
     def __init__(
         self, 
         stby: int,
-        pwma_l: int, 
-        ain1_l: int, 
-        ain2_l: int, 
-        pwmb_l: int, 
-        bin1_l: int, 
-        bin2_l: int, 
-        pwma_r: int, 
-        ain1_r: int, 
-        ain2_r: int, 
-        pwmb_r: int, 
-        bin1_r: int, 
-        bin2_r: int,
+        pwma_l: int, ain1_l: int, ain2_l: int, 
+        pwmb_l: int, bin1_l: int, bin2_l: int, 
+        pwma_r: int, ain1_r: int, ain2_r: int, 
+        pwmb_r: int, bin1_r: int, bin2_r: int,
         base_speed : float = 100.0, 
         speed_step: float = 0.1,
         steering_step: float = 0.2,
@@ -78,47 +68,31 @@ class FourWheelCarControl:
         self._allow_backward = True
         self.start()
 
-    @overload
-    def __init__(
-        self, 
+    @classmethod
+    def from_config(
+        cls, 
         cfg: MotorsConfig,
         base_speed : float = 100.0, 
         speed_step: float = 0.1,
         steering_step: float = 0.2,
     ):
         """
+        Creates an instance using a motor config. 
+
         Args:
             cfg:            config containing all pin positions
             base_speed:     defines max duty cycles for motors, between 0 and 100
             speed_step:     defines effect of single speed increase/decrease, relative, between 0 and 1
             steering_step:  defines effect of single steering increase/decrease, relative, between 0 and 1
         """
-        self.base_speed = base_speed
-        self._speed = 0.0
-        self._steering = 0.0
-        self.speed_step = speed_step
-        self.steering_step = steering_step
-
-        self._motors_left = MotorGroup(
-            [
-                Motor(cfg.left.front.pwm, cfg.left.front.in1, cfg.left.front.in2), 
-                Motor(cfg.left.rear.pwm, cfg.left.rear.in1, cfg.left.rear.in2)
-            ], 
-            self._base_speed
+        return cls(
+            cfg.stby,
+            cfg.left.front.pwm, cfg.left.front.in1, cfg.left.front.in2,
+            cfg.left.rear.pwm,  cfg.left.rear.in1,  cfg.left.rear.in2,
+            cfg.right.front.pwm, cfg.right.front.in1, cfg.right.front.in2,
+            cfg.right.rear.pwm,  cfg.right.rear.in1,  cfg.right.rear.in2,
+            base_speed, speed_step, steering_step
         )
-        self._motors_right = MotorGroup(
-            [
-                Motor(cfg.right.front.pwm, cfg.right.front.in1, cfg.right.front.in2), 
-                Motor(cfg.right.rear.pwm, cfg.right.rear.in1, cfg.right.rear.in2)
-            ], 
-            self._base_speed
-        )
-        self._stby = cfg.stby
-        
-        self._active = True
-        self._allow_forward = True
-        self._allow_backward = True
-        self.start()
 
     # ------------------------------------------------------------------
     # Properties
@@ -127,7 +101,8 @@ class FourWheelCarControl:
     @property
     def base_speed(self) -> float:
         """
-        Base speed which corresponds to the max duty cycles of the motors
+        Base speed which corresponds to the max duty cycles of the motors.
+        This value is multiplied with the relative speed (-1.0 to 1.0) of the corresponding motor.
         """
         return self._base_speed
     
