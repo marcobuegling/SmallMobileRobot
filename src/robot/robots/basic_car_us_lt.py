@@ -11,7 +11,7 @@ from robot.control.four_wheel_car_control import FourWheelCarControl
 from robot.hardware.sensors import UltrasonicSensor, LineTrackingSensor
 from robot.utils.config import RobotConfig
 
-class BasicCar:
+class BasicCarUSLT:
     """
     Class for a simple four wheel robot with an ultrasonic sensor and a line tracking sensor.
     Can be controlled by user input and allows live tracking of the sensor output values.
@@ -19,18 +19,11 @@ class BasicCar:
     """
 
     def __init__(self, cfg: RobotConfig):
-        self._initialised = False
-
         self._motorControl = FourWheelCarControl.from_config(cfg.motors)
         self._ultrasonicFront = UltrasonicSensor.from_config(cfg.sensors.ultrasonic, buffer_size=3)
         self._lineTracker = LineTrackingSensor.from_config(cfg.sensors.line)
 
-        self._initialised = True
-
     def run(self):
-        if not self._initialised:
-            raise RuntimeError("Robot not fully initialized")
-
         def _run(stdscr):
             # Setup keyboard input
             curses.cbreak()

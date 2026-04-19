@@ -6,8 +6,7 @@ else:
 
 # Class defining a single motor using the corresponding output pins
 class Motor:
-    def __init__(self, label: str, pwm: int, pwm_frequency: float, in1: int, in2: int):
-        self.label = label
+    def __init__(self, pwm: int, pwm_frequency: float, in1: int, in2: int):
         self._in1 = in1
         self._in2 = in2
         GPIO.output(in1, GPIO.LOW)
@@ -44,8 +43,7 @@ class Motor:
 
 # Class defining a group of motors and providing functionality for efficient control
 class MotorGroup:
-    def __init__(self, label: str, motors: list[Motor], max_speed: float):
-        self.label = label
+    def __init__(self, motors: list[Motor], max_speed: float):
         if len(motors) > 0:
             self._motors = motors
         else:

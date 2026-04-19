@@ -13,7 +13,7 @@ class MotorSide(BaseModel):
     front: MotorPins
     rear: MotorPins
 
-class MotorsConfig(BaseModel):
+class FourWheelsMotorsConfig(BaseModel):
     left: MotorSide
     right: MotorSide
     stby: int
@@ -29,15 +29,11 @@ class UltrasonicSensorConfig(BaseModel):
 class BasicSensorConfig(BaseModel):
     signal: int
 
-class SensorsConfig(BaseModel):
-    ultrasonic: UltrasonicSensorConfig
-    line: BasicSensorConfig
-
 class RobotConfig(BaseModel):
     robot_type: str
-    motors: MotorsConfig
-    camera_servo_motors: CameraServoConfig
-    sensors: SensorsConfig
+    motors: FourWheelsMotorsConfig
+    ultrasonic: UltrasonicSensorConfig
+    line: BasicSensorConfig
 
 
 # --- Loader function ---
