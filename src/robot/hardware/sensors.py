@@ -6,34 +6,94 @@ else:
 import time
 from collections import deque
 from robot.utils.config import UltrasonicSensorConfig, BasicSensorConfig
+from typing import List, get_args
+from abc import ABC
 
-# Base class for sensor modules
-class Sensor:
-    def __init__(self, output_type: type):
-        self._output_type = type
+class Sensor[T](ABC):
+    """
+    Abstract base class for sensor modules. Provides optional buffer functionality to store recent sensor values.
+    """
+    def __init__(self, buffer_size: int = 0) -> None:
+        """
+        Args:
+            buffer_size: Number of most recent sensor values to be stored.
+                         If set to 0, no buffer will be created.
+        """
+        self._buffer = deque[T](maxlen=buffer_size) if buffer_size > 0 else None
 
     @property
     def output_type(self) -> type:
-        return self._output_type
-
-    def __str__(self):
-        return self._label
+        """Output type of the sensor."""
+        return get_args(self._buffer)[0]
     
-# Class representing an ultrasonic sensor module (HC-SR04 or similar) with ability to store the last measurements in a buffer
-class UltrasonicSensor(Sensor):
+    def get_buffer_values(self) -> List[T]:
+        """Returns all values currently stored in the buffer."""
+        if not self._buffer:
+            raise ValueError("Sensor is not assigned a buffer")
+        return list(self._buffer)
+    
+    def get_buffer_avg(self) -> float:
+        """Calculate average of measurements stored in buffer."""
+        if not self._buffer:
+            raise ValueError("Sensor is not assigned a buffer")
+        return round(sum(self._buffer) / len(self._buffer), 2)
+    
+
+# Class representing a line tracking sensor module (HW-511 or similar)
+class BasicSensor(Sensor[bool]):
+    """
+    Class representing a simple sensor returning a high or low signal.
+    Use this class for all sensor types that have only one signal pin and return 
+    a clear high or low signal depending on whether detection was positive.
+    This includes simple line trackers (e.g. HW-511 or similar) or 
+    passive infrared (PIR) sensor modules (e.g. HW-416A or similar).
+    """
+    def __init__(self, signal_pin: int, buffer_size: int = 0):
+        """
+        Args:
+            signal_pin:  Input pin for the signal
+            buffer_size: Number of most recent sensor values to be stored.
+                         If set to 0, no buffer will be created.
+        """
+        super().__init__(buffer_size)
+        self._signal = signal_pin
+
+    @classmethod
+    def from_config(cls, cfg: BasicSensorConfig):
+        return cls(cfg.signal)
+
+    # Returns true if line detected, false otherwise
+    def read_value(self) -> bool:
+        """Reads the current signal, writes it to the buffer and returns it."""
+        signal = bool(GPIO.input(self._signal))
+        if self._buffer:
+            self._buffer.append(signal)
+        return signal
+
+    
+class UltrasonicSensor(Sensor[float]):
+    """
+    Class representing an ultrasonic sensor module (HC-SR04 or similar).
+    """
     def __init__(self, trig_pin: int, echo_pin: int, buffer_size: int = 0):
-        Sensor.__init__(self, float)
+        """
+        Args:
+            signal_pin:  Input pin for the signal
+            buffer_size: Number of most recent sensor values to be stored.
+                         If set to 0, no buffer will be created.
+        """
+        super().__init__(buffer_size)
         self._trig = trig_pin
         self._echo = echo_pin
         GPIO.output(self._trig, GPIO.LOW)
-        self._buffer = deque(maxlen=buffer_size)
 
     @classmethod
     def from_config(cls, cfg: UltrasonicSensorConfig, buffer_size: int = 0):
         return cls(cfg.trig, cfg.echo, buffer_size)
 
-    # Reads a single value, stores it in the buffer and returns it
     def read_value(self) -> float:
+        """Performs a single measurement, calculates the distance,
+            writes the distance to the buffer and returns it."""
         # Trigger pulse
         GPIO.output(self._trig, GPIO.HIGH)
         time.sleep(0.00001)
@@ -51,12 +111,9 @@ class UltrasonicSensor(Sensor):
         pulse_duration = pulse_end - pulse_start
         distance_cm = pulse_duration * 17150
         distance_cm = round(distance_cm, 2)
-        self._buffer.append(distance_cm)
+        if self._buffer:
+            self._buffer.append(distance_cm)
         return distance_cm
-    
-    # Calculate average of measurements stored in buffer
-    def get_recent_avg(self) -> float:
-        return round(sum(self._buffer) / len(self._buffer), 2)
     
 
 # Class representing a line tracking sensor module (HW-511 or similar)
