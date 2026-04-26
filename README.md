@@ -4,20 +4,26 @@ This is a personal project of mine with the goal of designing and programming a 
 ## Key Features
 - **Manual driving mode**: Control using keyboard via ssh
 - **Automatic safety stop**: Stops automatically when driving towards obstacle ahead
+- **Line tracking**: Basic line tracker following dark line on light ground
 - **Live transfer of sensor data**: Sends live sensor data to remote device
+- **Library**: Features interfaces for sensors, motors and cameras commonly used with Raspberry Pis
 
 ## Hardware
-- Four 6V DC motors
-- Two TB6612FNG motor drivers
+### Basis
 - Raspberry Pi Zero 2
-- 6V battery compartment w/ 4 AA batteries
 - Powerbank
 - Homemade chassis
 - Arducam Pan Tilt Platform
 
-## Sensors
+### Motors
+- Four 6V DC motors
+- Two TB6612FNG motor drivers
+- 6V battery compartment w/ 4 AA batteries
+
+### Sensors
 - HC-SR04 ultrasonic sensor
 - HW-511 line tracker module
+- Varying additional sensors compatible with Raspberry Pi
 - Raspberry Pi Camera Module 3
 
 ## Setup
