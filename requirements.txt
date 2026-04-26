@@ -67,10 +67,14 @@ libarchive-c==5.3
     # via picamera2
 numpy==2.4.4
     # via
+    #   opencv-python
     #   openexr
     #   picamera2
     #   pidng
+    #   robot (pyproject.toml)
     #   simplejpeg
+opencv-python==4.13.0.92
+    # via robot (pyproject.toml)
 openexr==3.4.9
     # via picamera2
 picamera2==0.3.34 ; sys_platform == "linux"
