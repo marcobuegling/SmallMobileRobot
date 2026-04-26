@@ -93,7 +93,7 @@ class MotorGroup:
         Speed has to be in range (-max_speed, max_speed), with -max_speed meaning maximum speed backwards.
         """
         self._speed = max(-self._max_speed, min(speed, self._max_speed))
-        for m in self.motors:
+        for m in self._motors:
             m.update_speed(self._speed)
 
     def start(self):

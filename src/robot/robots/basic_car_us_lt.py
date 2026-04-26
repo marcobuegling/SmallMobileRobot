@@ -46,7 +46,7 @@ class BasicCarUSLT:
                 # Get key input and current sensor data
                 key = stdscr.getch()
                 distance = self._ultrasonicFront.read_value()
-                distance_avg = self._ultrasonicFront.get_recent_avg()
+                distance_avg = self._ultrasonicFront.get_buffer_avg()
                 line_tracked = self._lineTracker.read_value()
 
                 # Calculate emergency break distance based on current velocity (approximation)

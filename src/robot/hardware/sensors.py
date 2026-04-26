@@ -28,14 +28,16 @@ class Sensor[T](ABC):
     
     def get_buffer_values(self) -> List[T]:
         """Returns all values currently stored in the buffer."""
-        if not self._buffer:
+        if self._buffer is None:
             raise ValueError("Sensor is not assigned a buffer")
         return list(self._buffer)
     
     def get_buffer_avg(self) -> float:
         """Calculate average of measurements stored in buffer."""
-        if not self._buffer:
+        if self._buffer is None:
             raise ValueError("Sensor is not assigned a buffer")
+        if len(self._buffer) == 0:
+            return 0.00
         return round(sum(self._buffer) / len(self._buffer), 2)
     
 
@@ -67,7 +69,7 @@ class BasicSensor(Sensor[bool]):
     def read_value(self) -> bool:
         """Reads the current signal, writes it to the buffer and returns it."""
         signal = bool(GPIO.input(self._signal))
-        if self._buffer:
+        if not self._buffer is None:
             self._buffer.append(signal)
         return signal
 
@@ -114,6 +116,6 @@ class UltrasonicSensor(Sensor[float]):
         pulse_duration = pulse_end - pulse_start
         distance_cm = pulse_duration * 17150
         distance_cm = round(distance_cm, 2)
-        if self._buffer:
+        if not self._buffer is None:
             self._buffer.append(distance_cm)
         return distance_cm
