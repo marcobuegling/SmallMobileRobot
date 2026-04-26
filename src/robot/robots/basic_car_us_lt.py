@@ -21,7 +21,13 @@ class BasicCarUSLT:
     """
 
     def __init__(self, cfg: RobotConfig):
-        self._motorControl = FourWheelCarControl.from_config(cfg.motors)
+        self._motorControl = FourWheelCarControl.from_config(
+            cfg.motors, 
+            pwm_frequency=cfg.control.pwm_frequency,
+            base_speed=cfg.control.max_speed,
+            speed_step=cfg.control.acceleration_sensitivity,
+            steering_step=cfg.control.steering_sensitivity
+        )
         self._ultrasonicFront = UltrasonicSensor.from_config(cfg.ultrasonic, buffer_size=3)
         self._lineTracker = BasicSensor.from_config(cfg.line, buffer_size=10)
 

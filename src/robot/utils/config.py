@@ -19,10 +19,10 @@ class FourWheelsMotorConfig(BaseModel):
     stby: int
 
 class ControlConfig(BaseModel):
-    max_speed: int
+    max_speed: float
     acceleration_sensitivity: float
     steering_sensitivity: float
-    pwm_frequency: int
+    pwm_frequency: float
 
 class CameraServoConfig(BaseModel):
     channels: int

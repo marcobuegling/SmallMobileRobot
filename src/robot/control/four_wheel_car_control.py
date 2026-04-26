@@ -18,6 +18,7 @@ class FourWheelCarControl:
         pwmb_l: int, bin1_l: int, bin2_l: int, 
         pwma_r: int, ain1_r: int, ain2_r: int, 
         pwmb_r: int, bin1_r: int, bin2_r: int,
+        pwm_frequency: float = 1000.0,
         base_speed : float = 100.0, 
         speed_step: float = 0.1,
         steering_step: float = 0.2,
@@ -37,6 +38,7 @@ class FourWheelCarControl:
             pwmb_r:         pwm pin of rear right motor
             bin1_r:         in1 pin of rear right motor
             bin2_r:         in2 pin of rear right motor
+            pwm_frequency:  pulse width modulation frequency in Hz
             base_speed:     defines max duty cycles for motors, between 0 and 100
             speed_step:     defines effect of single speed increase/decrease, relative, between 0 and 1
             steering_step:  defines effect of single steering increase/decrease, relative, between 0 and 1
@@ -49,15 +51,15 @@ class FourWheelCarControl:
 
         self._motors_left = MotorGroup(
             [
-                Motor(pwma_l, ain1_l, ain2_l), 
-                Motor(pwmb_l, bin1_l, bin2_l)
+                Motor(pwma_l, pwm_frequency, ain1_l, ain2_l), 
+                Motor(pwmb_l, pwm_frequency, bin1_l, bin2_l)
             ],
             self._base_speed
         )
         self._motors_right = MotorGroup(
             [
-                Motor(pwma_r, ain1_r, ain2_r), 
-                Motor(pwmb_r, bin1_r, bin2_r)
+                Motor(pwma_r, pwm_frequency, ain1_r, ain2_r), 
+                Motor(pwmb_r, pwm_frequency, bin1_r, bin2_r)
             ],
             self._base_speed
         )
@@ -72,6 +74,7 @@ class FourWheelCarControl:
     def from_config(
         cls, 
         cfg: FourWheelsMotorConfig,
+        pwm_frequency: float = 1000.0,
         base_speed : float = 100.0, 
         speed_step: float = 0.1,
         steering_step: float = 0.2,
@@ -81,6 +84,7 @@ class FourWheelCarControl:
 
         Args:
             cfg:            config containing all pin positions
+            pwm_frequency:  pulse width modulation frequency in Hz
             base_speed:     defines max duty cycles for motors, between 0 and 100
             speed_step:     defines effect of single speed increase/decrease, relative, between 0 and 1
             steering_step:  defines effect of single steering increase/decrease, relative, between 0 and 1
@@ -91,7 +95,7 @@ class FourWheelCarControl:
             cfg.left.rear.pwm,  cfg.left.rear.in1,  cfg.left.rear.in2,
             cfg.right.front.pwm, cfg.right.front.in1, cfg.right.front.in2,
             cfg.right.rear.pwm,  cfg.right.rear.in1,  cfg.right.rear.in2,
-            base_speed, speed_step, steering_step
+            pwm_frequency, base_speed, speed_step, steering_step
         )
 
     # ------------------------------------------------------------------

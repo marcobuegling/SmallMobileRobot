@@ -25,10 +25,10 @@ motors:
 
 # Hyperparameters regarding car control
 control:
-  max_speed: 100
+  max_speed: 100.0
   acceleration_sensitivity: 0.1
   steering_sensitivity: 0.2
-  pwm_frequency: 1000
+  pwm_frequency: 1000.0
 
 # GPIO pin definitions for the sensors
 ultrasonic:
