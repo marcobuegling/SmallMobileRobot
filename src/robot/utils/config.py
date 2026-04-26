@@ -13,7 +13,7 @@ class MotorSide(BaseModel):
     front: MotorPins
     rear: MotorPins
 
-class FourWheelsMotorsConfig(BaseModel):
+class FourWheelsMotorConfig(BaseModel):
     left: MotorSide
     right: MotorSide
     stby: int
@@ -37,7 +37,7 @@ class BasicSensorConfig(BaseModel):
 
 class RobotConfig(BaseModel):
     robot_type: str
-    motors: FourWheelsMotorsConfig
+    motors: FourWheelsMotorConfig
     control: ControlConfig
     ultrasonic: UltrasonicSensorConfig
     line: BasicSensorConfig

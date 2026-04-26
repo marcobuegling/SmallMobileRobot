@@ -7,7 +7,7 @@ def launch(config_file: str):
     """
     Launches .yaml file from /config.
     """
-    config_path = Path(__file__).parent.parent.parent / "config" / config_file
+    config_path = Path(__file__).parent.parent.parent.parent / "config" / config_file
     cfg = load_config(config_path)
 
     # Search in registry for robot type defined in config
