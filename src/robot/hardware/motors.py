@@ -13,6 +13,9 @@ class Motor:
     def __init__(self, pwm: int, pwm_frequency: float, in1: int, in2: int):
         self._in1 = in1
         self._in2 = in2
+        GPIO.setup(pwm, GPIO.OUT)
+        GPIO.setup(in1, GPIO.OUT)
+        GPIO.setup(in2, GPIO.OUT)
         GPIO.output(in1, GPIO.LOW)
         GPIO.output(in2, GPIO.LOW)
         self._pwm = GPIO.PWM(pwm, pwm_frequency)
@@ -31,14 +34,14 @@ class Motor:
         """
         self._speed = speed
         if self._speed > 0:
-            GPIO.output(self.in1, GPIO.HIGH)
-            GPIO.output(self.in2, GPIO.LOW)
+            GPIO.output(self._in1, GPIO.HIGH)
+            GPIO.output(self._in2, GPIO.LOW)
         elif self._speed < 0:
-            GPIO.output(self.in1, GPIO.LOW)
-            GPIO.output(self.in2, GPIO.HIGH)
+            GPIO.output(self._in1, GPIO.LOW)
+            GPIO.output(self._in2, GPIO.HIGH)
         else:
-            GPIO.output(self.in1, GPIO.LOW)
-            GPIO.output(self.in2, GPIO.LOW)
+            GPIO.output(self._in1, GPIO.LOW)
+            GPIO.output(self._in2, GPIO.LOW)
         self._pwm.ChangeDutyCycle(abs(self._speed))
 
     def change_speed(self, value: float):

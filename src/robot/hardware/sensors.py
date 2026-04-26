@@ -57,6 +57,7 @@ class BasicSensor(Sensor[bool]):
         """
         super().__init__(buffer_size)
         self._signal = signal_pin
+        GPIO.setup(signal_pin, GPIO.IN)
 
     @classmethod
     def from_config(cls, cfg: BasicSensorConfig, buffer_size: int = 0):
@@ -85,6 +86,8 @@ class UltrasonicSensor(Sensor[float]):
         super().__init__(buffer_size)
         self._trig = trig_pin
         self._echo = echo_pin
+        GPIO.setup(self._trig, GPIO.OUT)
+        GPIO.setup(self._echo, GPIO.IN)
         GPIO.output(self._trig, GPIO.LOW)
 
     @classmethod

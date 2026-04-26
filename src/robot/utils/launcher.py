@@ -1,3 +1,8 @@
+import sys
+if sys.platform == "linux":
+    import RPi.GPIO as GPIO
+else:
+    GPIO = None
 from pathlib import Path
 
 from robot.robots.registry import REGISTRY
@@ -9,6 +14,9 @@ def launch(config_file: str):
     """
     config_path = Path(__file__).parent.parent.parent.parent / "config" / config_file
     cfg = load_config(config_path)
+
+    # Refer to pins by the Broadcom SOC channel (aka GPIO) numbering
+    GPIO.setmode(GPIO.BCM)
 
     # Search in registry for robot type defined in config
     robot_class = REGISTRY.get(cfg.robot_type)

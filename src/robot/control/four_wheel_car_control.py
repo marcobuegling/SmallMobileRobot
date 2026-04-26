@@ -64,6 +64,7 @@ class FourWheelCarControl:
             self._base_speed
         )
         self._stby = stby
+        GPIO.setup(self._stby, GPIO.OUT)
         
         self._active = True
         self._allow_forward = True
