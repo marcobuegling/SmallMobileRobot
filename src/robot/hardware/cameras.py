@@ -1,5 +1,6 @@
 import time
 import os
+import numpy as np
 from picamera2 import Picamera2
 from picamera2.encoders import H264Encoder, JpegEncoder
 from picamera2.outputs import FileOutput, CircularOutput
@@ -162,7 +163,7 @@ class PiCamera:
     # Streaming / live frame access
     # ------------------------------------------------------------------
 
-    def video_stream_frame(self):
+    def video_stream_frame(self) -> np.ndarray:
         """
         Capture and return a single frame as a NumPy array (RGB).
 

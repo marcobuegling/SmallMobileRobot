@@ -14,10 +14,11 @@ class BasicCarUSLT:
     """
     Class for a simple four wheel robot with an ultrasonic sensor and a line tracking sensor.
     Can be controlled by user input and allows live tracking of the sensor output values.
+    Can follow a dark line on light ground automatically using the line tracking mode.
     Initialise a config file corresponding to this type of robot. See /config for an example file.
 
     Control using arrow keys (single keystrokes to adjust speed and direction). Additional controls:
-    'q': quit; 's': stop motors, 'd': restart motors
+    'q': quit; 's': stop motors, 'd': restart motors, 'l': toggle line tracking mode
     """
 
     def __init__(self, cfg: RobotConfig):

@@ -10,12 +10,18 @@ authors = [
 ]
 
 dependencies = [
+	"numpy",
+	"opencv-python-headless",
 	"pyyaml",
 	"pydantic",
+
+	# Linux / Raspberry Pi only
 	"adafruit-blinka; sys_platform == 'linux'",
 	"adafruit-circuitpython-servokit; sys_platform == 'linux'",
 	"picamera2; sys_platform == 'linux'",
-	"windows-curses; sys_platform == 'win32'"
+
+	# Windows only
+	"windows-curses; sys_platform == 'win32'" # curses is part of the standard library on linux - thus only needed for windows
 ]
 
 [tool.setuptools]

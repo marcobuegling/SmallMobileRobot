@@ -1,4 +1,4 @@
-# Robot type - must match exactly ROBOT_TYPE of the class you want to use
+# Robot type - must match exactly the robot type (in registry) of the class you want to use
 robot_type: "basic_car_us_lt"
 
 # GPIO pin definitions for the main motors including shared stby pin
