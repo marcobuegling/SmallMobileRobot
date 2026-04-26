@@ -30,6 +30,7 @@ class BasicCarUSLT:
         )
         self._ultrasonicFront = UltrasonicSensor.from_config(cfg.ultrasonic, buffer_size=3)
         self._lineTracker = BasicSensor.from_config(cfg.line, buffer_size=10)
+        self._line_tracking = False
 
     def run(self):
         def _run(stdscr):
@@ -73,15 +74,29 @@ class BasicCarUSLT:
                     if key == curses.KEY_DOWN:
                         self._motorControl.decelerate()
                     if key == curses.KEY_LEFT:
-                        self._motorControl.turn_left()
+                        if not self._line_tracking:
+                            self._motorControl.turn_left()
                     if key == curses.KEY_RIGHT:
-                        self._motorControl.turn_right()
+                        if not self._line_tracking:
+                            self._motorControl.turn_right()
+                    if key == ord('l'): # toggle line tracking mode
+                        if self._line_tracking:
+                            self._line_tracking = False
+                        else:
+                            self._line_tracking = True
                     if key == ord('s'): # stop motors entirely
                         self._motorControl.stop()
                     if key == ord('d'): # restart motors
                         self._motorControl.start()
                     if key == ord('q'): # quit
                         break
+
+                # Perform line tracking if activated
+                if self._line_tracking:
+                    if line_tracked:
+                        self._motorControl.turn_left()
+                    else:
+                        self._motorControl.turn_right()
 
                 # Perform emergency break in case of obstacle ahead
                 if distance_avg < emergency_break_dist and self._motorControl.speed > 0.0:
