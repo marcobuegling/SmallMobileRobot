@@ -39,14 +39,14 @@ class Sensor[T](ABC):
         return round(sum(self._buffer) / len(self._buffer), 2)
     
 
-# Class representing a line tracking sensor module (HW-511 or similar)
 class BasicSensor(Sensor[bool]):
     """
     Class representing a simple sensor returning a high or low signal.
     Use this class for all sensor types that have only one signal pin and return 
     a clear high or low signal depending on whether detection was positive.
     This includes simple line trackers (e.g. HW-511 or similar) or 
-    passive infrared (PIR) sensor modules (e.g. HW-416A or similar).
+    passive infrared (PIR) sensor modules (e.g. HW-416A or similar)
+    as well as other sensor types.
     """
     def __init__(self, signal_pin: int, buffer_size: int = 0):
         """
@@ -59,8 +59,8 @@ class BasicSensor(Sensor[bool]):
         self._signal = signal_pin
 
     @classmethod
-    def from_config(cls, cfg: BasicSensorConfig):
-        return cls(cfg.signal)
+    def from_config(cls, cfg: BasicSensorConfig, buffer_size: int = 0):
+        return cls(cfg.signal, buffer_size)
 
     # Returns true if line detected, false otherwise
     def read_value(self) -> bool:
@@ -114,33 +114,3 @@ class UltrasonicSensor(Sensor[float]):
         if self._buffer:
             self._buffer.append(distance_cm)
         return distance_cm
-    
-
-# Class representing a line tracking sensor module (HW-511 or similar)
-class LineTrackingSensor(Sensor):
-    def __init__(self, signal_pin: int):
-        Sensor.__init__(self, bool)
-        self._signal = signal_pin
-
-    @classmethod
-    def from_config(cls, cfg: BasicSensorConfig):
-        return cls(cfg.signal)
-
-    # Returns true if line detected, false otherwise
-    def read_value(self) -> bool:
-        return bool(GPIO.input(self._signal))
-    
-
-# Class representing a passive infrared (PIR) sensor module (HW-416A or similar)
-class PassiveInfraredSensor(Sensor):
-    def __init__(self, signal_pin: int):
-        Sensor.__init__(self, bool)
-        self._signal = signal_pin
-
-    @classmethod
-    def from_config(cls, cfg: BasicSensorConfig):
-        return cls(cfg.signal)
-
-    # Returns true if movement detected, false otherwise
-    def read_value(self) -> bool:
-        return bool(GPIO.input(self._signal))

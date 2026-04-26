@@ -18,6 +18,12 @@ class FourWheelsMotorsConfig(BaseModel):
     right: MotorSide
     stby: int
 
+class ControlConfig(BaseModel):
+    max_speed: int
+    acceleration_sensitivity: float
+    steering_sensitivity: float
+    pwm_frequency: int
+
 class CameraServoConfig(BaseModel):
     channels: int
     address: int  # hex values like 0x40 are parsed as ints automatically
@@ -32,6 +38,7 @@ class BasicSensorConfig(BaseModel):
 class RobotConfig(BaseModel):
     robot_type: str
     motors: FourWheelsMotorsConfig
+    control: ControlConfig
     ultrasonic: UltrasonicSensorConfig
     line: BasicSensorConfig
 

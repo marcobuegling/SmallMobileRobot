@@ -6,9 +6,8 @@ if sys.platform == "linux":
 else:
     GPIO = None
 
-from base import Robot
 from robot.control.four_wheel_car_control import FourWheelCarControl
-from robot.hardware.sensors import UltrasonicSensor, LineTrackingSensor
+from robot.hardware.sensors import UltrasonicSensor, BasicSensor
 from robot.utils.config import RobotConfig
 
 class BasicCarUSLT:
@@ -16,12 +15,15 @@ class BasicCarUSLT:
     Class for a simple four wheel robot with an ultrasonic sensor and a line tracking sensor.
     Can be controlled by user input and allows live tracking of the sensor output values.
     Initialise a config file corresponding to this type of robot. See /config for an example file.
+
+    Control using arrow keys (single keystrokes to adjust speed and direction). Additional controls:
+    'q': quit; 's': stop motors, 'd': restart motors
     """
 
     def __init__(self, cfg: RobotConfig):
         self._motorControl = FourWheelCarControl.from_config(cfg.motors)
-        self._ultrasonicFront = UltrasonicSensor.from_config(cfg.sensors.ultrasonic, buffer_size=3)
-        self._lineTracker = LineTrackingSensor.from_config(cfg.sensors.line)
+        self._ultrasonicFront = UltrasonicSensor.from_config(cfg.ultrasonic, buffer_size=3)
+        self._lineTracker = BasicSensor.from_config(cfg.line, buffer_size=10)
 
     def run(self):
         def _run(stdscr):
