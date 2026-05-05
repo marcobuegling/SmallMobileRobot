@@ -11,7 +11,7 @@ authors = [
 
 dependencies = [
 	"numpy",
-	"opencv-python-headless",
+	"opencv-python",
 	"pyyaml",
 	"pydantic",
 

@@ -8,7 +8,7 @@ from robot.hardware.cameras import PiCamera
 
 cam = PiCamera(mode='stream')
 
-# HSV range for an orange object - tunable with trackbar (below)
+# HSV range for an orange object
 LOWER = np.array([10, 120, 120])
 UPPER = np.array([25, 255, 255])
 
