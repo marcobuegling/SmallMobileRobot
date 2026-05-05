@@ -1,3 +1,9 @@
+"""
+Provides for functionality for steering a simple car robot from terminal input. 
+Includes a safety stop functionality using the ultrasonic sensor
+and live sensor data tracking.
+"""
+
 import sys
 import time
 import curses

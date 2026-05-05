@@ -1,3 +1,7 @@
+"""
+Test for live image processing, marking areas of a specified color in the camera output image.
+"""
+
 import numpy as np
 import cv2
 from robot.hardware.cameras import PiCamera
