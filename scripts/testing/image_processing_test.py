@@ -4,9 +4,9 @@ from robot.hardware.cameras import PiCamera
 
 cam = PiCamera(mode='stream')
 
-# HSV range for an orange object
-LOWER = np.array([10, 120, 120])
-UPPER = np.array([25, 255, 255])
+# HSV range for an blue object
+LOWER = np.array([110, 50, 50])
+UPPER = np.array([130, 255, 255])
 
 while True:
     frame = cam.video_stream_frame()
