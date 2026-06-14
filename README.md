@@ -1,6 +1,9 @@
 # Small Mobile Robot
 This is a personal project of mine with the goal of designing and programming a mobile robot myself. I constantly want to expand its capabilities by improving both hardware and software.
 
+## IMPORTANT: ROS 2 Integration
+The integration to ROS 2 is currently ongoing and will soon be available on a separate repository. The link will be posted here soon.
+
 ## Key Features
 - **Manual driving mode**: Control using keyboard via ssh
 - **Automatic safety stop**: Stops automatically when driving towards obstacle ahead
