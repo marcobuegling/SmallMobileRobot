@@ -2,7 +2,7 @@
 This is a personal project of mine with the goal of designing and programming a mobile robot myself. I constantly want to expand its capabilities by improving both hardware and software.
 
 ## IMPORTANT: ROS 2 Integration
-The integration to ROS 2 is currently ongoing and will soon be available on a separate repository. The link will be posted here soon.
+There is a separate version of this project using ROS 2, which will be used for further development. This repository can therefore be considered deprecated. Find the ROS 2 project [here](https://github.com/marcobuegling/SmallMobileROSRobot).
 
 ## Key Features
 - **Manual driving mode**: Control using keyboard via ssh
